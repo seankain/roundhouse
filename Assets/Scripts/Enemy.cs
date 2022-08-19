@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,14 @@ public class Enemy : MonoBehaviour
 {
     public float Health = 100;
     public float Lookup = 0.1f;
+    public float MaxMoveDistance = 1.0f;
+    public float MaxMoveTime = 5.0f;
+    public float MoveSpeed = 1.0f;
     private Animator anim;
     private Ragdoller ragdoller;
     private Rigidbody rb;
     private PlayerController player;
+    private TurnTaker turnTaker;
     private Camera mainCamera;
     private bool down = false;
     private float downCount = 5;
@@ -19,9 +24,54 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         ragdoller = GetComponent<Ragdoller>();
+        turnTaker = GetComponent<TurnTaker>();
         rb = GetComponent<Rigidbody>();
         player = FindObjectOfType<PlayerController>();
         mainCamera = Camera.main;
+        turnTaker.TurnStarted += TurnTaker_TurnStarted;
+    }
+
+    private void TurnTaker_TurnStarted(object sender, System.EventArgs e)
+    {
+        if (Vector3.Distance(player.gameObject.transform.position, gameObject.transform.position) > MaxMoveDistance)
+        {
+            var destination = Vector3.MoveTowards(gameObject.transform.position, player.gameObject.transform.position, MaxMoveDistance);
+            StartCoroutine(Move(destination));
+            Attack();
+        }
+    }
+
+    private IEnumerator Move(Vector3 destination)
+    {
+        var elapsed = 0f;
+        while (Vector3.Distance(this.gameObject.transform.position, destination) > 0.1f && elapsed < MaxMoveTime) 
+        {
+            this.gameObject.transform.position = Vector3.Lerp(this.gameObject.transform.position, destination, Time.deltaTime * MoveSpeed);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    private void Attack() {
+        anim.SetTrigger("Punch");
+        StartCoroutine(WaitAttack());
+    }
+
+    private IEnumerator WaitAttack()
+    {
+        Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+        var state = anim.GetCurrentAnimatorStateInfo(0);
+        Debug.Log(state);
+        var elapsed = 0f;
+        while (state.IsName("Punch"))
+        {
+            yield return null;
+        }
+        while (elapsed < 2)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        turnTaker.OnTurnEnded(new EventArgs());
     }
 
     // Update is called once per frame

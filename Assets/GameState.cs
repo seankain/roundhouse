@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,18 +31,30 @@ public class GameState : MonoBehaviour
             {
                 enemyTurnTakers.Add(turnTaker);
             }
+            turnTaker.TurnEnded += TurnTransition;
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        allTurnTakers[currentTurnTaker].OnTurnStarted(new EventArgs());
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void TurnTransition(object sender,EventArgs e)
+    {
+        currentTurnTaker++;
+        if(currentTurnTaker >= allTurnTakers.Length)
+        {
+            currentTurnTaker = 0;
+        }
+        Debug.Log($"{allTurnTakers[currentTurnTaker].gameObject.name}'s turn");
+        allTurnTakers[currentTurnTaker].OnTurnStarted(new EventArgs());
     }
 }
