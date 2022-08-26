@@ -7,26 +7,45 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float PowerMeterSpeed = 10f;
+    public float TurnSpeed = 25f;
     private Animator anim;
     private KickArc kickArc;
     private TurnTaker turnTaker;
+    private bool isTurn = false;
+    private PlayerUI ui;
     //-1 for coming back, 1 for going forward, 0 for not cycling
     private int cycleDirection = 0;
     // Start is called before the first frame update
     private PowerMeter powerMeter;
     private float power = 0;
     private bool settingPower = false;
-    void Start()
-    {
+
+    void Awake() {
         anim = GetComponentInChildren<Animator>();
+        ui = GetComponent<PlayerUI>();
         kickArc = GetComponent<KickArc>();
         powerMeter = FindObjectOfType<PowerMeter>();
         turnTaker = GetComponent<TurnTaker>();
+        turnTaker.TurnStarted += TurnTaker_TurnStarted;
+    }
+
+    void Start()
+    {
+
+    }
+
+    private void TurnTaker_TurnStarted(object sender, EventArgs e)
+    {
+        //ui.FadePowerMeter(true, 10);
+        isTurn = true;
+        ui.ShowPowerMeter();
+        ui.ShowMessage("Your turn!", 10);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isTurn) { return; }
         var kickInputPressed = Input.GetKeyDown(KeyCode.Space);
         // if (Input.GetKeyDown(KeyCode.Space))
         //{
@@ -60,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 1:
                 power += PowerMeterSpeed * Time.deltaTime;
-                if(power >= 100)
+                if (power >= 100)
                 {
                     power = 100;
                     cycleDirection = -1;
@@ -83,22 +102,28 @@ public class PlayerController : MonoBehaviour
         powerMeter.SetPowerLevel(power);
     }
 
+
     IEnumerator WaitKick()
     {
-        Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
+        //Debug.Log(anim.GetCurrentAnimatorClipInfo(0)[0].clip.name);
         var state = anim.GetCurrentAnimatorStateInfo(0);
-        Debug.Log(state);
+        //Debug.Log(state);
         var elapsed = 0f;
         while (state.IsName("Kick"))
         {
             yield return null;
         }
-        while(elapsed < 2) 
+        while (elapsed < 2)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
         power = 0;
+        Debug.Log("player turn ended");
+        //ui.FadePowerMeter(false, 10);
+        ui.HidePowerMeter();
+        ui.HideMessage();
+        isTurn = false;
         turnTaker.OnTurnEnded(new EventArgs());
     }
 
@@ -106,4 +131,8 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log(collision);
     }
+
+    public void LookLeft() { this.gameObject.transform.Rotate(0, -1 * Time.deltaTime *TurnSpeed, 0); }
+    public void LookRight() { this.gameObject.transform.Rotate(0, 1 * Time.deltaTime * TurnSpeed, 0); }
+
 }

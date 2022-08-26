@@ -1,0 +1,56 @@
+x-enemy click selection
+-enemy focus from click selection
+    x-highlight shader
+	-power meter indicator
+-power meter
+x-add ragdoll to enemy
+x-foot collision event registering
+x-enemy collision with 
+x-enemy falling when kicked
+enemy stunned/moved when kicked
+general turn loop
+   - enemy attack maximum turn time
+   
+scene replay
+enemy attack
+health system
+
+-range indication
+-environment score items
+  -distance from origin
+  -breakable/broken
+  
+
+
+x-fat body type for trucker with suspenders
+x-trucker cap
+-tanktop
+-tucked in flannel
+-open denim shirt
+-western shirt
+-cowboy hats
+-more cowboy boot textures
+-mullet
+-mustache
+-beard
+-switch blade
+-workboot
+
+
+-ranch
+-construction site
+-mechanic shop
+-bar
+-warehouse
+-fish packing place
+
+
+-breakable glass window
+-breakable crates
+-breakable glass bottles
+
+-boot trail during kick
+-kick sound
+-whiff sound
+-glass breakable sound
+-woodbreak sound

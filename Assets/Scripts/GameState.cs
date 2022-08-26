@@ -6,11 +6,11 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
 
+    public float TurnEndWaitTime = 2f;
     private PlayerController player;
     private TurnTaker playerTurnTaker;
     private List<TurnTaker> enemyTurnTakers;
     private TurnTaker[] allTurnTakers;
-
     private int currentTurnTaker = 0;
 
     void Awake()
@@ -47,6 +47,18 @@ public class GameState : MonoBehaviour
         
     }
 
+    private IEnumerator FireNextTurn()
+    {
+        var elapsed = 0f;
+        while(elapsed < TurnEndWaitTime)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log($"{allTurnTakers[currentTurnTaker].gameObject.name}'s turn");
+        allTurnTakers[currentTurnTaker].OnTurnStarted(new EventArgs());
+    }
+
     void TurnTransition(object sender,EventArgs e)
     {
         currentTurnTaker++;
@@ -54,7 +66,6 @@ public class GameState : MonoBehaviour
         {
             currentTurnTaker = 0;
         }
-        Debug.Log($"{allTurnTakers[currentTurnTaker].gameObject.name}'s turn");
-        allTurnTakers[currentTurnTaker].OnTurnStarted(new EventArgs());
+        StartCoroutine(FireNextTurn());
     }
 }
