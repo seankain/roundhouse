@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Hit(float damage, Vector3 direction)
+    public void Hit(float damage, Vector3 direction,Vector3 worldPosition)
     {
         Health -= damage;
         Debug.Log($"{gameObject.name} hit for {damage} damage, {Health} health remaining");
@@ -146,6 +146,7 @@ public class Enemy : MonoBehaviour
             down = true;
             anim.SetBool("Down", true);
             ragdoller.SetRagdoll(true);
+            //rb.AddForceAtPosition(direction, worldPosition, ForceMode.Impulse);
         }
         else
         {

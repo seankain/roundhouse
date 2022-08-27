@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public float PowerMeterSpeed = 10f;
     public float TurnSpeed = 25f;
+    public float KickForceMultiplier = 500f;
     private Animator anim;
     private KickArc kickArc;
     private TurnTaker turnTaker;
@@ -130,6 +131,13 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision);
+        var enemy = collision.gameObject.GetComponent<Enemy>();
+        if(enemy != null)
+        {
+            //I think I made forward backward on the player gameobject because of course i did, TODO fix that
+            //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
+            enemy.Hit(100, Vector3.zero,collision.GetContact(0).point);
+        }
     }
 
     public void LookLeft() { this.gameObject.transform.Rotate(0, -1 * Time.deltaTime *TurnSpeed, 0); }
