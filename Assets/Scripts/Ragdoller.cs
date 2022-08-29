@@ -7,12 +7,15 @@ public class Ragdoller : MonoBehaviour
     public Animator anim;
     public Rigidbody rb;
     public Collider playerCollider;
+    public float DepenetrationVelocity = 1f;
     // Start is called before the first frame update
 
     private void Awake()
     {
         playerCollider = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
+        Debug.Log($"penetration {rb.maxDepenetrationVelocity}");
+        rb.maxDepenetrationVelocity = DepenetrationVelocity;
     }
 
     public void SetRagdoll(bool ragdollActivated)

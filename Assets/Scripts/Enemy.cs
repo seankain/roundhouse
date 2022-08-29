@@ -171,6 +171,7 @@ public class Enemy : MonoBehaviour
         {
             down = false;
             //anim.enabled = true;
+            nav.enabled = true;
             anim.SetBool("Down", false);
             ragdoller.SetRagdoll(false);
         }

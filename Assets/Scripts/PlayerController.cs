@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
                 //kickArc.Draw(1.5f);
         }
         powerMeter.SetPowerLevel(power);
+        gameObject.transform.position += new Vector3(0, 0, -Input.GetAxis("Vertical") * Time.deltaTime * 3);
     }
 
 
@@ -130,13 +131,40 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision);
-        var enemy = collision.gameObject.GetComponent<Enemy>();
-        if(enemy != null)
+        //Debug.Log(collision);
+        //var enemy = collision.gameObject.GetComponent<Enemy>();
+        //if(enemy != null)
+        //{
+        //    //I think I made forward backward on the player gameobject because of course i did, TODO fix that
+        //    //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
+        //    enemy.Hit(100, Vector3.zero,collision.GetContact(0).point);
+        //}
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //Debug.Log(collision);
+        //var enemy = collision.gameObject.GetComponent<Enemy>();
+        //if (enemy != null)
+        //{
+        //    //I think I made forward backward on the player gameobject because of course i did, TODO fix that
+        //    //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
+        //    //enemy.Hit(100, Vector3.zero, collision.GetContact(0).point);
+        //    enemy.Hit(100, Vector3.zero, collision.transform.position);
+
+        //}
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var enemy = other.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
         {
             //I think I made forward backward on the player gameobject because of course i did, TODO fix that
             //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
-            enemy.Hit(100, Vector3.zero,collision.GetContact(0).point);
+            //enemy.Hit(100, Vector3.zero, collision.GetContact(0).point);
+            enemy.Hit(100, Vector3.zero, Vector3.zero);
+
         }
     }
 

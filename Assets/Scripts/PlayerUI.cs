@@ -9,6 +9,18 @@ public class PlayerUI : MonoBehaviour
 
     public TextMeshProUGUI playerMessage;
     public RawImage powerMeterImage;
+    public Button DollAllButton;
+
+    void Awake()
+    {
+        DollAllButton.onClick.AddListener(() => {
+            var enemies = FindObjectsOfType<Enemy>();
+            foreach(var enemy in enemies)
+            {
+                enemy.Hit(100, Vector3.zero, Vector3.zero);
+            }
+        });
+    }
 
     public void ShowMessage(string messageText,int time=0)
     {
