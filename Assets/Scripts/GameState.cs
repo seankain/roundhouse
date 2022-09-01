@@ -7,11 +7,14 @@ public class GameState : MonoBehaviour
 {
 
     public float TurnEndWaitTime = 2f;
+
+    public float TotalScore = 0;
     private PlayerController player;
     private TurnTaker playerTurnTaker;
     private List<TurnTaker> enemyTurnTakers;
     private TurnTaker[] allTurnTakers;
     private int currentTurnTaker = 0;
+    private Scorable[] scorableItems;
 
     void Awake()
     {
@@ -33,6 +36,7 @@ public class GameState : MonoBehaviour
             }
             turnTaker.TurnEnded += TurnTransition;
         }
+        scorableItems = FindObjectsOfType<Scorable>();
     }
 
     // Start is called before the first frame update
@@ -44,7 +48,10 @@ public class GameState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        foreach(var s in scorableItems)
+        {
+            TotalScore += s.Score;
+        }
     }
 
     private IEnumerator FireNextTurn()

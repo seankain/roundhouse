@@ -94,6 +94,17 @@ public class Enemy : MonoBehaviour
     {
         //this.transform.LookAt(player.gameObject.transform.position + Vector3.up * Lookup);
 
+        if (down)
+        {
+            if(Health <= 0) { return; }
+            downElapsed += Time.deltaTime;
+            if (downElapsed >= downCount)
+            {
+                downElapsed = 0;
+                Getup();
+            }
+            return;
+        }
         if (isTurn)
         {
             //Check distance from player
@@ -126,15 +137,6 @@ public class Enemy : MonoBehaviour
             }
 
         }
-        if (down && Health > 0)
-        {
-            downElapsed += Time.deltaTime;
-            if (downElapsed >= downCount)
-            {
-                downElapsed = 0;
-                Getup();
-            }
-        }
     }
 
     public void Hit(float damage, Vector3 direction,Vector3 worldPosition)
@@ -144,6 +146,7 @@ public class Enemy : MonoBehaviour
         if (Health <= 0)
         {
             down = true;
+            nav.enabled = false;
             anim.SetBool("Down", true);
             ragdoller.SetRagdoll(true);
             //rb.AddForceAtPosition(direction, worldPosition, ForceMode.Impulse);
