@@ -10,6 +10,8 @@ public class PlayerUI : MonoBehaviour
     public TextMeshProUGUI playerMessage;
     public RawImage powerMeterImage;
     public Button DollAllButton;
+    public TextMeshProUGUI scoreOutput;
+    private GameState gameState;
 
     void Awake()
     {
@@ -20,6 +22,15 @@ public class PlayerUI : MonoBehaviour
                 enemy.Hit(100, Vector3.zero, Vector3.zero);
             }
         });
+    }
+    private void Start()
+    {
+        gameState = FindObjectOfType<GameState>();
+    }
+
+    private void Update()
+    {
+        scoreOutput.text = ((int)gameState.TotalScore).ToString("D8");
     }
 
     public void ShowMessage(string messageText,int time=0)

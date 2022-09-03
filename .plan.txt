@@ -1,15 +1,15 @@
 x-enemy click selection
 -enemy focus from click selection
     x-highlight shader
-	-power meter indicator
+	x -power meter indicator
 -power meter
 x-add ragdoll to enemy
 x-foot collision event registering
 x-enemy collision with 
 x-enemy falling when kicked
-enemy stunned/moved when kicked
-general turn loop
-   - enemy attack maximum turn time
+x- enemy stunned/moved when kicked
+x general turn loop
+   x - enemy attack maximum turn time
    
 scene replay
 enemy attack
@@ -19,8 +19,9 @@ health system
 -environment score items
   -distance from origin
   -breakable/broken
-  
+  -boot trail during kick
 
+--ART--
 
 x-fat body type for trucker with suspenders
 x-trucker cap
@@ -37,6 +38,8 @@ x-trucker cap
 -workboot
 
 
+--LEVELS--
+
 -ranch
 -construction site
 -mechanic shop
@@ -49,7 +52,8 @@ x-trucker cap
 -breakable crates
 -breakable glass bottles
 
--boot trail during kick
+--SOUNDS
+
 -kick sound
 -whiff sound
 -glass breakable sound

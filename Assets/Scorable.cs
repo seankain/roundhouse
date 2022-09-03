@@ -10,6 +10,7 @@ public class Scorable : MonoBehaviour
     private Vector3 LastPosition;
     private Quaternion OriginalRotation;
     private Rigidbody rb;
+    private GameState gameState;
     
     private bool scoring = false;
     
@@ -22,6 +23,7 @@ public class Scorable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameState = FindObjectOfType<GameState>();
         LastPosition = gameObject.transform.position;
         OriginalRotation = gameObject.transform.rotation;
     }
@@ -32,7 +34,8 @@ public class Scorable : MonoBehaviour
         if (!scoring) { return; }
         if (rb.velocity.sqrMagnitude > 0)
         {
-            Score += Vector3.Distance(LastPosition, gameObject.transform.position);
+            //Score += Vector3.Distance(LastPosition, gameObject.transform.position);
+            gameState.TotalScore += Mathf.Ceil(Vector3.Distance(LastPosition, gameObject.transform.position));
             LastPosition = gameObject.transform.position;
         }
     }
@@ -40,7 +43,7 @@ public class Scorable : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         var enemy = collision.gameObject.GetComponent<Enemy>();
-        if (enemy = null)
+        if (enemy != null)
         {
             scoring = true;
         }

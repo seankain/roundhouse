@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float PowerMeterSpeed = 10f;
     public float TurnSpeed = 25f;
     public float KickForceMultiplier = 500f;
+    public GameObject rightFoot;
     private Animator anim;
     private KickArc kickArc;
     private TurnTaker turnTaker;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private PowerMeter powerMeter;
     private float power = 0;
     private bool settingPower = false;
+
 
     void Awake() {
         anim = GetComponentInChildren<Animator>();
@@ -161,9 +163,9 @@ public class PlayerController : MonoBehaviour
         if (enemy != null)
         {
             //I think I made forward backward on the player gameobject because of course i did, TODO fix that
-            //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
+            enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,rightFoot.transform.position);
             //enemy.Hit(100, Vector3.zero, collision.GetContact(0).point);
-            enemy.Hit(100, Vector3.zero, Vector3.zero);
+            //enemy.Hit(100, Vector3.zero, Vector3.zero);
 
         }
     }
