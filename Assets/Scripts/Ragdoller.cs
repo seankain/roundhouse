@@ -51,5 +51,21 @@ public class Ragdoller : MonoBehaviour
         anim.enabled = !ragdollActivated;
     }
 
+    public void ForceRagdoll(Vector3 location, Vector3 force)
+    {
+        var minDistance = float.PositiveInfinity;
+        Rigidbody closest = ragdollRigidBodies[0];
+        foreach(var r in ragdollRigidBodies)
+        {
+            var dist = Vector3.Distance(location, r.transform.position);
+            if (dist< minDistance)
+            {
+                minDistance = dist;
+                closest = r;
+            }
+        }
+        closest.AddForce(force, ForceMode.Impulse);
+    }
+
   
 }

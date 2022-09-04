@@ -96,7 +96,15 @@ public class Enemy : MonoBehaviour
 
         if (down)
         {
-            if(Health <= 0) { return; }
+            if (Health <= 0)
+            {
+                if (isTurn)
+                {
+                    isTurn = false;
+                    turnTaker.OnTurnEnded(new EventArgs());
+                    return;
+                }
+            }
             downElapsed += Time.deltaTime;
             if (downElapsed >= downCount)
             {
@@ -109,7 +117,6 @@ public class Enemy : MonoBehaviour
         {
             //Check distance from player
             isWithinAttack = Vector3.Distance(this.transform.position, player.gameObject.transform.position) <= AttackDistance;
-            Debug.Log($"{gameObject.name} is {isWithinAttack} from player");
             if (isWithinAttack)
             {
                 Debug.Log($"{gameObject.name} is attacking");
@@ -139,7 +146,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Hit(float damage, Vector3 direction,Vector3 worldPosition)
+    public void Hit(float damage, Vector3 direction, Vector3 worldPosition)
     {
         Health -= damage;
         Debug.Log($"{gameObject.name} hit for {damage} damage, {Health} health remaining");
@@ -149,6 +156,7 @@ public class Enemy : MonoBehaviour
             nav.enabled = false;
             anim.SetBool("Down", true);
             ragdoller.SetRagdoll(true);
+            ragdoller.ForceRagdoll(worldPosition, direction);
             //rb.AddForceAtPosition(direction, worldPosition, ForceMode.Impulse);
         }
         else
@@ -160,12 +168,16 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.gameObject);
-        //if(collision.gameObject.tag == "Foot")
-        //{
-        //    down = true;
-        //    anim.SetBool("Down", true);
-        //    ragdoller.SetRagdoll(true);
-        //}
+        if (collision.gameObject.tag == "Foot")
+        {
+            foreach (var contact in collision.contacts)
+            {
+                Debug.Log(contact.thisCollider.name);
+            }
+            //down = true;
+            //anim.SetBool("Down", true);
+            //ragdoller.SetRagdoll(true);
+        }
     }
 
     void Getup()

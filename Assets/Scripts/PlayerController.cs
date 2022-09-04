@@ -133,14 +133,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(collision);
-        //var enemy = collision.gameObject.GetComponent<Enemy>();
-        //if(enemy != null)
-        //{
-        //    //I think I made forward backward on the player gameobject because of course i did, TODO fix that
-        //    //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
-        //    enemy.Hit(100, Vector3.zero,collision.GetContact(0).point);
-        //}
+        var enemy = collision.gameObject.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            //I think I made forward backward on the player gameobject because of course i did, TODO fix that
+            //enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,collision.GetContact(0).point);
+            enemy.Hit(100, -gameObject.transform.forward * KickForceMultiplier,rightFoot.transform.position);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
