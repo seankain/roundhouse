@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.Log($"{gameObject.name} is moving");
+                //Debug.Log($"{gameObject.name} is moving");
                 if (moveElapsed < MaxMoveTime)
                 {
                     nav.isStopped = false;

@@ -1,43 +1,71 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Breakable : MonoBehaviour
 {
     public int DestructionScore = 100;
-    private GameObject UnbrokenParent;
-    private GameObject BrokenParent;
+    public float BreakCollisionSpeed = 10f;
+    public GameObject BrokenPrefab;
     private bool broken = false;
     private float brokenElapsed = 0f;
     public float BrokenMaxTime = 5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private EventDrivenParticle particle;
+    private MeshRenderer meshRenderer;
+    private Rigidbody rb;
+    private BoxCollider boxCollider;
 
-    // Update is called once per frame
-    void Update()
+    void Awake()
     {
-        
+        particle = GetComponent<EventDrivenParticle>();
+        meshRenderer = GetComponent<MeshRenderer>();
+        rb = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        UnbrokenParent.SetActive(false);
-        BrokenParent.SetActive(true);
-        StartCoroutine(DestroyAfter(BrokenMaxTime));
+        Debug.Log($"{name} breakable collision impulse {collision.impulse}, relative velocity {collision.relativeVelocity}");
+        if (Mathf.Abs(Vector3.Magnitude(collision.impulse)) < BreakCollisionSpeed) { return; }
+        broken = true;
+        Debug.Log($"{name} collision, should be exploding");
+        meshRenderer.enabled = false;
+        boxCollider.isTrigger = true;
+        Instantiate(BrokenPrefab, gameObject.transform.position, Quaternion.identity);
+        if (particle != null)
+        {
+            particle.Emit(new ParticleEmitEventArgs { Position = this.gameObject.transform.position });
+        }
+    }
+
+    void Update()
+    {
+        if (!broken) { return; }
+        brokenElapsed += Time.deltaTime;
+        if(brokenElapsed >= Time.deltaTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator DestroyAfter(float destroyTime)
     {
-        var elapsed = 0;
+        var elapsed = 0f;
         while (elapsed < destroyTime)
         {
-            elapsed++;
+            elapsed+= Time.deltaTime;
             yield return null;
         }
+        Debug.Log("Destryoing breakable");
         Destroy(this);
     }
 
+}
+
+public delegate void BreakEventHandler(object sender, ParticleEmitEventArgs e);
+public class ParticleEmitEventArgs
+{
+    public Vector3 Position;
 }
