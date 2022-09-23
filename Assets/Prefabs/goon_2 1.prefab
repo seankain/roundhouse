@@ -800,6 +800,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   Lookup: 0.1
+  MaxMoveDistance: 1
+  AttackDistance: 1
+  MaxMoveTime: 5
+  MoveSpeed: 1
 --- !u!114 &2037010798222925707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,6 +819,7 @@ MonoBehaviour:
   anim: {fileID: 2037010798222925701}
   rb: {fileID: 2037010798222925700}
   playerCollider: {fileID: 2037010798222925703}
+  DepenetrationVelocity: 1
 --- !u!114 &2037010798222925706
 MonoBehaviour:
   m_ObjectHideFlags: 0
