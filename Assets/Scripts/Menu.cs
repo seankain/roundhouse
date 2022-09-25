@@ -19,7 +19,8 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //TextMeshProUGUI
+        PlayButton.onClick.AddListener(PlayClicked);
+        QuitButton.onClick.AddListener(QuitClicked);
         playTmp = PlayButton.GetComponentInChildren<TextMeshProUGUI>();
         playTmp.color = new Color(255, 255, 255, 0);
         quitTmp = QuitButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -55,7 +56,7 @@ public class Menu : MonoBehaviour
         }
         while (buttonAlpha < 255)
         {
-            buttonAlpha += direction * Time.deltaTime;
+            buttonAlpha += direction * Time.deltaTime * 0.1f;
             playTmp.color = new Color(255, 255, 255, buttonAlpha);
             quitTmp.color = new Color(255, 255, 255, buttonAlpha);
             yield return null;
