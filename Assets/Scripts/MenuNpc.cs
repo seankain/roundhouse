@@ -62,8 +62,11 @@ public class MenuNpc : MonoBehaviour
                     anim.SetTrigger("GetUp");
                     navMeshAgent.isStopped = false;
                     elapsed = 0;
+                    tripped = false;
                     return;
                 }
+                elapsed = 0;
+                return;
             }
             else
             {

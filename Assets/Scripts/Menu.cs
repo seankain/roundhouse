@@ -15,16 +15,19 @@ public class Menu : MonoBehaviour
     private float buttonAlpha = 0;
     private TextMeshProUGUI playTmp;
     private TextMeshProUGUI quitTmp;
+    private Crossfader fader;
 
     // Start is called before the first frame update
     void Start()
     {
+        fader = GetComponentInChildren<Crossfader>();
         PlayButton.onClick.AddListener(PlayClicked);
         QuitButton.onClick.AddListener(QuitClicked);
         playTmp = PlayButton.GetComponentInChildren<TextMeshProUGUI>();
         playTmp.color = new Color(255, 255, 255, 0);
         quitTmp = QuitButton.GetComponentInChildren<TextMeshProUGUI>();
         quitTmp.color = new Color(255,255, 255, 0);
+        StartCoroutine(fader.FadeIn(0.1f));
         StartCoroutine(BeginMenuPan());
     }
 
@@ -64,8 +67,8 @@ public class Menu : MonoBehaviour
     }
 
     void PlayClicked() 
-    { 
-      
+    {
+        Debug.Log("Clicky");
     }
     void QuitClicked()
     {
