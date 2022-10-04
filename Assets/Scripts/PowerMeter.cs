@@ -7,6 +7,7 @@ public class PowerMeter : MonoBehaviour
 
 
     public GameObject PowerSlicePrefab;
+    public GameObject Indicator;
     public float Radius = 2;
     public int SliceCount = 10;
     private List<GameObject> powerSlices;
@@ -73,6 +74,26 @@ public class PowerMeter : MonoBehaviour
         indicator.transform.localPosition = pos;
         indicator.transform.rotation = Quaternion.Euler(rotation);
         return indicator;
+    }
+
+    private void PlaceSelectionIndicator(float angle)
+    {
+        var pos = new Vector3
+        {
+            x = (Radius * Mathf.Cos(angle * Mathf.Deg2Rad)),
+            y = 0,
+            z = (Radius * Mathf.Sin(angle * Mathf.Deg2Rad))
+        };
+        var rotation = new Vector3(0, -angle, 0);
+        //var indicator = Instantiate(PowerSlicePrefab, this.gameObject.transform, false);
+        Indicator.transform.localPosition = pos;
+        Indicator.transform.rotation = Quaternion.Euler(rotation);
+        Indicator.SetActive(true);
+    }
+
+    private void HideSelectionIndicator()
+    {
+        Indicator.SetActive(false);
     }
 
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Menu : MonoBehaviour
     public Button QuitButton;
     public CinemachineVirtualCamera Camera1;
     public CinemachineVirtualCamera Camera2;
+    public CinemachineVirtualCamera Camera3;
     private float buttonAlpha = 0;
     private TextMeshProUGUI playTmp;
     private TextMeshProUGUI quitTmp;
@@ -50,6 +52,22 @@ public class Menu : MonoBehaviour
         StartCoroutine(ToggleButtons());
     }
 
+    public IEnumerator BeginStartLevelPan()
+    {
+        StartCoroutine(ToggleButtons());
+        Camera2.enabled = false;
+        Camera3.enabled = true;
+        StartCoroutine(fader.FadeOut(0.05f));
+        var elapsed = 0f;
+        while(elapsed <= 1)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        SceneManager.LoadScene("Saloon");
+    }
+
     public IEnumerator ToggleButtons()
     {
         var direction = 1;
@@ -68,7 +86,8 @@ public class Menu : MonoBehaviour
 
     void PlayClicked() 
     {
-        Debug.Log("Clicky");
+        StartCoroutine(BeginStartLevelPan());
+
     }
     void QuitClicked()
     {

@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class GameState : MonoBehaviour
+public class GameState : MonoBehaviour, ISelectionNotifier
 {
 
     public float TurnEndWaitTime = 2f;
-
     public float TotalScore = 0;
     private PlayerController player;
     private TurnTaker playerTurnTaker;
@@ -15,6 +15,8 @@ public class GameState : MonoBehaviour
     private TurnTaker[] allTurnTakers;
     private int currentTurnTaker = 0;
     private Scorable[] scorableItems;
+
+    public GameObject SelectedGameObject { get { return FindObjectsOfType<Selectable>().FirstOrDefault(s => s.Selected).gameObject; } }
 
     void Awake()
     {
@@ -74,5 +76,10 @@ public class GameState : MonoBehaviour
             currentTurnTaker = 0;
         }
         StartCoroutine(FireNextTurn());
+    }
+
+    public void NotifyOfSelection(Selectable selectable)
+    {
+        Debug.Log($"{selectable.gameObject.name} selected");
     }
 }

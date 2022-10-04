@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-
+    public Texture2D WalkTexture;
+    public Texture2D SelectTexture;
     public TextMeshProUGUI playerMessage;
     public RawImage powerMeterImage;
     public Button DollAllButton;
@@ -31,6 +32,22 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         scoreOutput.text = ((int)gameState.TotalScore).ToString("D8");
+        if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out var hitInfo)){
+            if (hitInfo.collider.gameObject.tag == "Walkable")
+            {
+                Cursor.SetCursor(WalkTexture, Vector2.zero, CursorMode.Auto);
+            }
+            else if(hitInfo.collider.gameObject.tag == "Enemy")
+            {
+                Cursor.SetCursor(SelectTexture, Vector2.zero, CursorMode.Auto);
+            }
+            else
+            {
+                Cursor.SetCursor(null,Vector2.zero,CursorMode.Auto);
+            }
+            //Debug.Log(hitInfo.collider.gameObject.name);
+        }
+  
     }
 
     public void ShowMessage(string messageText,int time=0)

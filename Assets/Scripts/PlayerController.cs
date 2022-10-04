@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float PowerMeterSpeed = 10f;
     public float TurnSpeed = 25f;
     public float KickForceMultiplier = 500f;
+    public GameObject Pin;
     public GameObject rightFoot;
     private Animator anim;
     private KickArc kickArc;

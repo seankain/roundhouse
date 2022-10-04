@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class BouncyBall : MonoBehaviour
 {
-
+    public int Counter = 0;
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Bounce");
+        Counter++;
+        Debug.Log($"Bounced {Counter} times");
+      
     }
 
 }

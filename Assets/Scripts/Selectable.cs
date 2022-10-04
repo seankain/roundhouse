@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
@@ -35,6 +36,12 @@ public class Selectable : MonoBehaviour
                     meshRenderer.gameObject.layer = this.selectedLayerId;
                 }
             }
+            var selectionNotifiers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectionNotifier>();
+            foreach(var notifier in selectionNotifiers)
+            {
+                notifier.NotifyOfSelection(this);
+            }
+
             return;
         };
         this.gameObject.layer = this.defaultLayerId;

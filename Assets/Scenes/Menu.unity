@@ -2364,7 +2364,7 @@ Transform:
   m_Children:
   - {fileID: 1812474897}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: -7.94, y: -181.54, z: 0}
 --- !u!1 &873398503
 GameObject:
@@ -3906,6 +3906,7 @@ MonoBehaviour:
   QuitButton: {fileID: 1925125134}
   Camera1: {fileID: 109792073}
   Camera2: {fileID: 222146271}
+  Camera3: {fileID: 778613188}
 --- !u!114 &1564610858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3982,7 +3983,7 @@ RectTransform:
   - {fileID: 103567785}
   - {fileID: 1087463730}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4054,7 +4055,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1593464420
 PrefabInstance:

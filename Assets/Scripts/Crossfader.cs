@@ -24,6 +24,7 @@ public class Crossfader : MonoBehaviour
         while (alpha <= 1)
         {
             alpha += time * Time.deltaTime;
+            panelImage.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
     }
